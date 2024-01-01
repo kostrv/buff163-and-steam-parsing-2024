@@ -35,15 +35,15 @@ class GetBuffSteamData():
         
         self.start_time = datetime.now()
     
-    def write_json(self, data: list[dict[str, str or None]]) -> None:
+    async def write_json(self, data: list[dict[str, str or None]]) -> None:
         '''
         Универсальная функция для записи json файла.
         '''
         with open(f'data\\buff_steam_parsed_data.json', "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, ensure_ascii=False, indent=4)
-        print(f'\n[INFO] Json written. [FINAL TIME] {str(datetime.now() - self.start_time)[:7]}\n')
+        print(f'[INFO] Json written.\n')
 
-    def create_parse_blocks(self, values_range: int = 100) -> list[list[str]]:
+    def create_parse_blocks(self, values_range: int = 150) -> list[list[str]]:
         '''
         Функция для разбития имеющейся базы предметов по блокам
         и тем самым, уменьшения одновременной нагрузки на buff163 частыми запросами.
@@ -117,7 +117,7 @@ class GetBuffSteamData():
         block_data = await asyncio.gather(*task)
         block_data = [item for item in block_data if item is not None]
         
-        print(f'\n[INFO] PROCESSED BLOCK [ID] {block_id+1} [TIME] {str(datetime.now() - self.start_time)[:7]}\n')
+        print(f'\n[INFO] PROCESSED BLOCK [ID] {block_id+1} [TIME] {str(datetime.now() - self.start_time)[:7]}')
         return block_data
 
     async def get_items_data(self) -> list[dict[str: str or float]]:
@@ -137,7 +137,8 @@ class GetBuffSteamData():
                 parsed_data_block = await self.get_block_data(session=session, block=block, block_id=main_data_block.index(block))
                 for item_data in parsed_data_block:
                     main_data.append(item_data)
-                    
+                await self.write_json(main_data)
+            
         await session.close()
         return main_data
     
@@ -145,4 +146,4 @@ operator = GetBuffSteamData()
 
 if __name__ == '__main__':
     main_data = asyncio.run(operator.get_items_data()) # Сбор данных.
-    operator.write_json(data=main_data) # Сохранение данных.
+    #operator.write_json(data=main_data) 
