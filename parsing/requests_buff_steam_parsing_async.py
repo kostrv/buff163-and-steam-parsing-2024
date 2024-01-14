@@ -109,7 +109,7 @@ class GetBuffSteamData():
     async def get_block_data(self, session, block: list[str], block_id: int) -> list[dict[str: str or float]]:
         '''
         Функция для получения данных всех предметов в блоке.
-        Парсинг предметов распределяется по потокам и производится ассинхронно.
+        Парсинг предметов распределяется по потокам и производится асинхронно.
         Неудачные данные не будут учитаны.
         '''
         task = [self.get_item_data(session=session, item_name=item_data[1], item_buff_id=item_data[0], block_id=block_id) for item_data in block]
@@ -122,9 +122,9 @@ class GetBuffSteamData():
 
     async def get_items_data(self) -> list[dict[str: str or float]]:
         '''
-        Главная функция ассинхронного сбора данных.
+        Главная функция асинхронного сбора данных.
         Все имеющиеся предметы разбиваются на блоки для распределения нагрузки.
-        Создается единственный объект сессии и далее, производится ассинхронный парсинг 
+        Создается единственный объект сессии и далее, производится асинхронный парсинг 
         поочередно для всех предметов блока.
         '''
         main_data_block = self.create_parse_blocks()
