@@ -35,7 +35,7 @@ class GetBuffSteamData():
         
         self.start_time = datetime.now()
     
-    async def write_json(self, data: list[dict[str, str or None]]) -> None:
+    async def write_json(self, data: list[dict[str, str | None]]) -> None:
         '''
         Универсальная функция для записи json файла.
         '''
@@ -63,7 +63,7 @@ class GetBuffSteamData():
         
         return main_block
     
-    async def get_item_data(self, session, item_name: str, item_buff_id: int, block_id: int, page: int = 1) -> dict[str, str or None]:
+    async def get_item_data(self, session, item_name: str, item_buff_id: int, block_id: int, page: int = 1) -> dict[str, str | None]:
         '''
         Функция ассинхроной отправки запроса на индивидуальную страницу 
         API buff163 предмета и cбopa соответсвующих данных.
@@ -106,7 +106,7 @@ class GetBuffSteamData():
             await asyncio.sleep(self.timeout_time)
             return await self.get_item_data(session=session, item_name=item_name, item_buff_id=item_buff_id, block_id=block_id) # Повторный запуск функции.
         
-    async def get_block_data(self, session, block: list[str], block_id: int) -> list[dict[str: str or float]]:
+    async def get_block_data(self, session, block: list[str], block_id: int) -> list[dict[str: str | float]]:
         '''
         Функция для получения данных всех предметов в блоке.
         Парсинг предметов распределяется по потокам и производится асинхронно.
@@ -120,7 +120,7 @@ class GetBuffSteamData():
         print(f'\n[INFO] PROCESSED BLOCK [ID] {block_id+1} [TIME] {str(datetime.now() - self.start_time)[:7]}')
         return block_data
 
-    async def get_items_data(self) -> list[dict[str: str or float]]:
+    async def get_items_data(self) -> list[dict[str: str | float]]:
         '''
         Главная функция асинхронного сбора данных.
         Все имеющиеся предметы разбиваются на блоки для распределения нагрузки.
