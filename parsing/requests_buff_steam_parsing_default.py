@@ -36,7 +36,7 @@ class GetBuffSteamData():
         
         self.start_time = datetime.now()
     
-    def write_json(self, data: list[dict[str : str or float or None]]) -> None:
+    def write_json(self, data: list[dict[str : str | float | None]]) -> None:
         '''
         Универсальная функция для записи json файла.
         '''
@@ -44,7 +44,7 @@ class GetBuffSteamData():
             json.dump(data, json_file, ensure_ascii=False, indent=4)
         print('\n[INFO] Json frited.\n')
 
-    def get_item_data(self, item_id: int, item_name: str, item_buff_id: int, page: int = 1, retry: int = 5) -> dict[str : str or float or None]:
+    def get_item_data(self, item_id: int, item_name: str, item_buff_id: int, page: int = 1, retry: int = 5) -> dict[str : str | float | None]:
         '''
         Функция отправки запроса на индивидуальную страницу API buff163 предмета и cбopa соответсвующих данных.
         Реализована обработка ошибок. Данные будут возвращены в любом случае. 
@@ -86,7 +86,7 @@ class GetBuffSteamData():
                 
         finally: return item_data_dict  # Окончательное возвращение данных, вне зависимости от успешности сбора.
         
-    def fetch_main_data(self) -> list[dict[str : str or float or None]]:
+    def fetch_main_data(self) -> list[dict[str : str | float | None]]:
         '''
         Главная функция cбopa данных.
         Скрипт проходится по скачанной базе id для предметов cs2 на buff163
