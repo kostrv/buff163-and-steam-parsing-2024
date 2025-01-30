@@ -4,7 +4,7 @@ from datetime import datetime
 from time import sleep
 
 try: from selenium import webdriver
-except ImportError:
+except (ImportError, ModuleNotFoundError):
     os.system(f'pip install selenium')
     from selenium import webdriver
 from selenium import webdriver
@@ -14,8 +14,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 try: from fake_useragent import UserAgent
-except ImportError:
-    os.system(f'pip install fake_useragent')
+except (ImportError, ModuleNotFoundError):
+    os.system(f'pip install fake-useragent')
     from fake_useragent import UserAgent
 
 class GetBuffSteamData():
@@ -60,7 +60,7 @@ class GetBuffSteamData():
         
         self.start_time = datetime.now()
     
-    def write_json(self, data: list[dict[str : str or None]]) -> None:
+    def write_json(self, data: list[dict[str : str | None]]) -> None:
         '''
         Универсальная функция для записи json файла.
         '''
@@ -75,7 +75,7 @@ class GetBuffSteamData():
         self.driver.close()
         self.driver.quit()
 
-    def get_item_data(self, item_id: int, item_name: str, item_buff_url: str, retry: int = 5) -> dict[str : str or None]:
+    def get_item_data(self, item_id: int, item_name: str, item_buff_url: str, retry: int = 5) -> dict[str : str | None]:
         '''
         Функция отправки запроса на индивидуальную страницу buff163 предмета и cбopa соответсвующих данных.
         Реализована обработка ошибок. Данные будут возвращены в любом случае. 
@@ -132,7 +132,7 @@ class GetBuffSteamData():
                 
         finally: return item_data_dict  # Окончательное возвращение данных, вне зависимости от успешности сбора.
         
-    def fetch_main_data(self) -> list[dict[str : str or None]]:
+    def fetch_main_data(self) -> list[dict[str : str | None]]:
         '''
         Главная функция cбopa данных.
         Скрипт проходится по скачанной базе id для предметов cs2 на buff163
